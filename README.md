@@ -1,5 +1,7 @@
 This is a web application that wirelessly connects your Raspberry Pi to available WiFi networks, through a slick UI that bridges it all to an access point.
 
+![Screenshot](screenshot.jpg)
+
 # Installation
 
 You will need a Raspberry Pi 3 and an extra WiFi adapter. For initial setup, you will need to wire your Pi to your router. So get a cable also.
