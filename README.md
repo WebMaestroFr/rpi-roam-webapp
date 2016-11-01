@@ -1,4 +1,4 @@
-This is a web application that lets you wirelessly connect your Raspberry Pi to available WiFi networks, through a slick UI that bridges it all to an access point.
+This is a web application that wirelessly connects your Raspberry Pi to available WiFi networks, through a slick UI that bridges it all to an access point.
 
 # Installation
 
@@ -23,7 +23,7 @@ From here, it's important you `cd` into the application directory.
 pi@raspberrypi:~ $ cd /home/pi/roam-webapp
 ```
 
-I'm going to ask you to do a couple of `sudo bash`. And because you're smart enough, you're going to go on and read these two files first. Once you understand more or less each step of the install process, you should decide to trust me and continue. The point here is : don't just `sudo bash` the first script you come across the internet kid, some can be stupid or dangerous.
+I'm going to ask you to do a couple of `sudo bash`. And because you're smart enough, you're going to go on and read [these two files](https://github.com/WebMaestroFr/rpi-roam-webapp/tree/master/roam-webapp/setup) first. Once you understand more or less each step of the install process, you should decide to trust me and continue. The point here is : don't just `sudo bash` the first script you come across the internet kid, some can be stupid or dangerous.
 
 Okay, first one of them script is to set up the access point. It's the "WiFi Network" that our Pi will offer. It is mostly inspired by @Lewiscowles1986's [Raspberry Pi 3 access-point-setup](https://gist.github.com/Lewiscowles1986/fecd4de0b45b2029c390)).
 
@@ -44,7 +44,7 @@ A second `sudo bash` to install the application.
 - **Application Port** : The port to run the application on. (default: *80*)
 - **Application Name** : The title to give to the application page... (default: *Raspberry Pi*)
 - **Host Name** : The *.local* address of the Pi. (default: *raspberrypi*)
-- **Access Point Interface** : the same one you used for the step above ! (default: *wlan0*)
+- **Access Point Interface** : The same one you used for the step above ! (default: *wlan0*)
 - **Adapter Interface** : Your WiFi receiver. (default: *wlan1*)
 - **Connection Process Interval** : Interval inbetween each "auto" connection attempt, in minutes. (default: *2*)
 
