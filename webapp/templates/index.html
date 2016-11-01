@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+        <title>{{ name }}</title>
+        <link rel="stylesheet" href="/static/css/fonts.css">
+        <link rel="stylesheet" href="/static/css/material.pink-green.min.css">
+
+        <link rel="stylesheet" href="/static/css/getmdl-select.min.css">
+
+        <link rel="stylesheet" href="/static/css/style.css">
+    </head>
+    <body>
+        <div class="mdl-layout mdl-js-layout">
+            <main class="mdl-layout__content">
+
+                <header class="roam-header">
+                    <img class="roam-logo" src="/static/img/raspi-logo.png">
+                    <h1 class="roam-title">{{ name }}</h1>
+                </header>
+
+                <form class="roam-connect" method="post" action="/connect">
+                    <div class="roam-ssid mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fullwidth">
+                        <input class="mdl-textfield__input" type="text" name="ssid" id="roam-ssid" readonly tabindex="-1" value="{{ active if active is not none }}" data-val="{{ active if active is not none }}" required>
+                        <label for="roam-ssid"><i class="roam-icon mdl-icon-toggle__label material-icons">{{ 'keyboard_arrow_down' if active is none else 'check' }}</i></label>
+                        <label class="mdl-textfield__label" for="roam-ssid">Network</label>
+                        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="roam-ssid">
+                            {% for network in networks %}
+                                <li class="mdl-menu__item{% if network.ssid == active %} roam-active{% endif %}" data-val="{{ network.ssid }}">{{ network.ssid }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="roam-passkey mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="password" name="passkey" id="roam-passkey">
+                        <label class="mdl-textfield__label" for="roam-passkey">Password</label>
+                    </div>
+                    <input type="submit" class="roam-submit mdl-button mdl-js-button mdl-js-button mdl-button--raised" value="Connect"/>
+                </form>
+
+                <div class="roam-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+
+            </main>
+        </div>
+
+        <script src="/static/js/material.min.js"></script>
+        <script src="/static/js/getmdl-select.min.js"></script>
+
+        <script src="/static/js/jquery-3.1.1.min.js"></script>
+        <script>var roamActiveSsid = {{ active|tojson|safe }};</script>
+        <script src="/static/js/script.js"></script>
+    </body>
+</html>
