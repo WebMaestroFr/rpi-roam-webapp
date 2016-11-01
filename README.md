@@ -1,60 +1,61 @@
-This is a web application that lets you wirelessly connect your Raspberry Pi to available networks through a slick UI, and that bridges it all from your adapter to the casted access point.
+This is a web application that lets you wirelessly connect your Raspberry Pi to available WiFi networks, through a slick UI that bridges it all to an access point.
 
 # Installation
 
-You need a Raspberry Pi 3 and an WiFi adapter (or a lower version and a second adapter, but I haven’t tried). For initial setup, you will need to wire your Pi to your router. So get a cable also.
+You will need a Raspberry Pi 3 and an extra WiFi adapter. For initial setup, you will need to wire your Pi to your router. So get a cable also.
 
-## Raspbian
+I consider that your Pi is up and running a fresh image of Raspbian. If not, please follow [this installation guide](https://www.raspberrypi.org/documentation/installation/installing-images/README.md).
 
-You probably want to start from a fresh image. Start by downloading a last release of Raspbian : https://www.raspberrypi.org/downloads/raspbian/.
+Plug it in and turn it on, let's go !
 
-Then plug your SD card in, and (from OSX) spot it with `diskutil list`.
-```shell
-$ diskutil list
-...
-/dev/disk2 (internal, physical):
-   #:                       TYPE NAME                    SIZE       IDENTIFIER
-   0:     FDisk_partition_scheme                        *16.1 GB    disk2
-   1:             Windows_FAT_32 boot                    66.1 MB    disk2s1
-   2:                      Linux                         16.0 GB    disk2s2
+Once you downloaded this repository, use "secure copy" to push the application directory onto the Pi.
 ```
-Here my SD card is at `/dev/disk2`, so I'll remember the number **2** and call it **N** since you geeks may not have the same.
-
-Then, using this number, we're going to unmount the disk. Use your own **N**, don't just copy `diskutil unmountDisk /dev/diskN`.
-```shell
-$ diskutil unmountDisk /dev/disk2
-Unmount of all volumes on disk2 was successful
+$ scp -r path/to/rpi-roam-webapp/roam-webapp pi@raspberrypi.local:.
 ```
 
-Now burn ! `sudo dd bs=1m if=path/to/raspbian-jessie.img of=/dev/rdiskN`, with your own **N** and **path to image** obviously.
-```shell
-$ sudo dd bs=1m if=2016-09-23-raspbian-jessie-lite.img of=/dev/rdisk2
-Password:
-1325+0 records in
-1325+0 records out
-1389363200 bytes transferred in 123.325735 secs (11265801 bytes/sec)
+Now take control of your Pi with SSH.
 ```
-
-Unmount your SD card once again before taking it out, with `diskutil unmountDisk /dev/diskN`.
-```shell
-$ diskutil unmountDisk /dev/disk2
-Unmount of all volumes on disk2 was successful
-```
-
-Okay, we're ready. Slide the SD card in, and plug your Pi's ethernet and power.
-
-
-## SSH
-
-Now SSH with `ssh pi@raspberrypi.local`.
-```shell
 $ ssh pi@raspberrypi.local
-...
-Are you sure you want to continue connecting (yes/no)? yes
-...
-pi@raspberrypi.local\'s password:
-...
-pi@raspberrypi:~ $
 ```
 
-## Clone this repo
+From here, it's important you `cd` into the application directory.
+```
+pi@raspberrypi:~ $ cd /home/pi/roam-webapp
+```
+
+I'm going to ask you to do a couple of `sudo bash`. And because you're smart enough, you're going to go on and read these two files first. Once you understand more or less each step of the install process, you should decide to trust me and continue. The point here is : don't just `sudo bash` the first script you come across the internet kid, some can be stupid or dangerous.
+
+Okay, first one of them script is to set up the access point. It's the "WiFi Network" that our Pi will offer. It is mostly inspired by @Lewiscowles1986's [Raspberry Pi 3 access-point-setup](https://gist.github.com/Lewiscowles1986/fecd4de0b45b2029c390)).
+
+The script will ask you for some information.
+- **Access Point Name** : The SSID, basically the name of our Pi's WiFi. (default: *Raspberry Pi*)
+- **Access Point Password** : The passkey of our Pi's WiFi. [Pick it well](https://strongpasswordgenerator.com/) ! (default: *raspberry*)
+- **Access Point Interface** : You should probably keep "wlan0". I didn't experiment much with this, but I invite you to. (default: *wlan0*)
+- **Local Network Address** : "192.168.0" or whatever, just make sure you follow this IP format: three levels only ! (default: *10.0.0*)
+
+```
+pi@raspberrypi:~ $ sudo bash setup/setup-access-point.sh
+```
+It may take some time since it runs `apt-get install` & `apt-get update`.
+
+Now you should see your Pi in your computer's list of available WiFi networks. That's our *Access Point*. Pretty cool huh ?
+
+A second `sudo bash` to install the application.
+- **Application Port** : The port to run the application on. (default: *80*)
+- **Application Name** : The title to give to the application page... (default: *Raspberry Pi*)
+- **Host Name** : The *.local* address of the Pi. (default: *raspberrypi*)
+- **Access Point Interface** : the same one you used for the step above ! (default: *wlan0*)
+- **Adapter Interface** : Your WiFi receiver. (default: *wlan1*)
+- **Connection Process Interval** : Interval inbetween each "auto" connection attempt, in minutes. (default: *2*)
+
+```
+pi@raspberrypi:~ $ sudo bash setup/setup-roam-webapp.sh
+```
+
+Once done, your Pi will reboot.
+
+Unplug the ethernet wire.
+
+From your computer now, select and connect to your *Access Point* in the list of available WiFi networks. In your browser, go to your *.local* host (`http://raspberrypi.local:80` by defaults)... and here you go ! Ready to set up your WiFi !
+
+Once connected to any network, your Pi will bridge it to you.

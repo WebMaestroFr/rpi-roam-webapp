@@ -15,7 +15,7 @@ read -p "Access Point Interface :`echo $'\n> '`" -e -i "wlan0" AP_INTERFACE
 
 read -p "Adapter Interface :`echo $'\n> '`" -e -i "wlan1" ADAPTER_INTERFACE
 
-read -p "Connection Process Interval (in minutes) :`echo $'\n> '`" -e -i "2" CONNECTION_INTERVAL
+read -p "Connection Process Interval :`echo $'\n> '`" -e -i "2" CONNECTION_INTERVAL
 
 
 # Updates and Installs
@@ -23,16 +23,16 @@ read -p "Connection Process Interval (in minutes) :`echo $'\n> '`" -e -i "2" CON
 apt-get install python-pip -y
 
 pip install virtualenv
-virtualenv env
+virtualenv .env
 
-env/bin/pip install -r requirements.txt
+.env/bin/pip install -r requirements.txt
 
 
 # Application
 
-(crontab -l 2>/dev/null; echo "@reboot sudo $(pwd)/env/bin/python $(pwd)/webapp/app.py --port=${APP_PORT} --name=${APP_NAME} --ap=${AP_INTERFACE} --adapter=${ADAPTER_INTERFACE} &") | crontab -
-(crontab -l 2>/dev/null; echo "@reboot sudo $(pwd)/env/bin/python $(pwd)/setup/connection-process.py --adapter=${ADAPTER_INTERFACE}") | crontab -
-(crontab -l 2>/dev/null; echo "*/${CONNECTION_INTERVAL} * * * * sudo $(pwd)/env/bin/python $(pwd)/setup/connection-process.py --adapter=${ADAPTER_INTERFACE}") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot sudo $(pwd)/.env/bin/python $(pwd)/webapp/app.py --port=${APP_PORT} --name="${APP_NAME}" --ap=${AP_INTERFACE} --adapter=${ADAPTER_INTERFACE} &") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot sudo $(pwd)/.env/bin/python $(pwd)/setup/connection-process.py --adapter=${ADAPTER_INTERFACE}") | crontab -
+(crontab -l 2>/dev/null; echo "*/${CONNECTION_INTERVAL} * * * * sudo $(pwd)/.env/bin/python $(pwd)/setup/connection-process.py --adapter=${ADAPTER_INTERFACE}") | crontab -
 
 
 # IP Tables
