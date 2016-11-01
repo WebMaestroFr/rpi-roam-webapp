@@ -27,7 +27,7 @@ pi@raspberrypi:~ $ cd /home/pi/roam-webapp
 
 I'm going to ask you to do a couple of `sudo bash`. And because you're smart enough, you're going to go on and read [these two files](https://github.com/WebMaestroFr/rpi-roam-webapp/tree/master/roam-webapp/setup) first. Once you understand more or less each step of the install process, you should decide to trust me and continue. The point here is : don't just `sudo bash` the first script you come across the internet kid, some can be stupid or dangerous.
 
-Okay, first one of them script is to set up the access point. It's the "WiFi Network" that our Pi will offer. It is mostly inspired by @Lewiscowles1986's [Raspberry Pi 3 access-point-setup](https://gist.github.com/Lewiscowles1986/fecd4de0b45b2029c390)).
+Okay, first one of them script is to set up the access point. It's the "WiFi Network" that our Pi will offer. It is mostly inspired by @Lewiscowles1986's [Raspberry Pi 3 access-point-setup](https://gist.github.com/Lewiscowles1986/fecd4de0b45b2029c390).
 
 The script will ask you for some information.
 - **Access Point Name** : The SSID, basically the name of our Pi's WiFi. (default: *Raspberry Pi*)

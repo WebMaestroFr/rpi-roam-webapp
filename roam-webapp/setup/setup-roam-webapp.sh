@@ -30,7 +30,7 @@ virtualenv .env
 
 # Application
 
-(crontab -l 2>/dev/null; echo "@reboot sudo $(pwd)/.env/bin/python $(pwd)/webapp/app.py --port=${APP_PORT} --name="${APP_NAME}" --ap=${AP_INTERFACE} --adapter=${ADAPTER_INTERFACE} &") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot sudo $(pwd)/.env/bin/python $(pwd)/webapp/app.py --port=${APP_PORT} --name=\"${APP_NAME}\" --ap=${AP_INTERFACE} --adapter=${ADAPTER_INTERFACE} &") | crontab -
 (crontab -l 2>/dev/null; echo "@reboot sudo $(pwd)/.env/bin/python $(pwd)/setup/connection-process.py --adapter=${ADAPTER_INTERFACE}") | crontab -
 (crontab -l 2>/dev/null; echo "*/${CONNECTION_INTERVAL} * * * * sudo $(pwd)/.env/bin/python $(pwd)/setup/connection-process.py --adapter=${ADAPTER_INTERFACE}") | crontab -
 
