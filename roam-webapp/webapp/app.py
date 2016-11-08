@@ -1,4 +1,4 @@
-from subprocess import CalledProcessError, check_output
+from subprocess import CalledProcessError, call, check_output
 
 from flask.json import JSONEncoder
 
@@ -56,12 +56,26 @@ def _connect(scheme):
     return False
 
 
-def _auto_connect(interface):
-    if not _active(interface):
-        for cell in _networks(interface):
-            scheme = _scheme(interface, cell.ssid)
-            if _connect(scheme):
-                break
+def _iptables_webapp(ap, adapter, active):
+    # Connected : Local address only redirect to webapp
+    # TO DO : config file to turn on/off
+    tor = False
+    call(
+        "/usr/bin/sudo bash %s/shell/iptables.sh %s %s %s %s" %
+        (path, ap, adapter, 1 if active else 0, 1 if tor else 0),
+        shell=True)
+
+
+def _auto_connect(ap, adapter):
+    if _active(adapter):
+        return True
+    _iptables_webapp(ap, adapter, False)
+    for cell in _networks(ap):
+        scheme = _scheme(adapter, cell.ssid)
+        if _connect(scheme):
+            _iptables_webapp(ap, adapter, True)
+            return True
+    return False
 
 
 class RoamJSONEncoder(JSONEncoder):
@@ -81,6 +95,9 @@ if __name__ == "__main__":
 
     import argparse
     from flask import Flask, jsonify, render_template, request
+    import os
+
+    path = os.path.dirname(os.path.realpath(__file__))
 
     app = Flask(__name__)
     app.config.update(DEBUG=True)
@@ -97,6 +114,8 @@ if __name__ == "__main__":
         "--adapter", nargs="?", default="wlan1", help="Adapter Interface.")
 
     args = parser.parse_args()
+
+    _auto_connect(args.ap, args.adapter)
 
     @app.route("/active")
     def active():
@@ -137,7 +156,5 @@ if __name__ == "__main__":
             networks=_networks(args.ap),
             active=_active(args.adapter),
             name=args.name)
-
-    _auto_connect(args.adapter)
 
     app.run(host="0.0.0.0", port=args.port)

@@ -31,8 +31,7 @@ virtualenv .env
 # Application
 
 (crontab -l 2>/dev/null; echo "@reboot sudo $(pwd)/.env/bin/python $(pwd)/webapp/app.py --port=${APP_PORT} --name=\"${APP_NAME}\" --ap=${AP_INTERFACE} --adapter=${ADAPTER_INTERFACE} &") | crontab -
-(crontab -l 2>/dev/null; echo "@reboot sudo $(pwd)/.env/bin/python $(pwd)/setup/connection-process.py --adapter=${ADAPTER_INTERFACE}") | crontab -
-(crontab -l 2>/dev/null; echo "*/${CONNECTION_INTERVAL} * * * * sudo $(pwd)/.env/bin/python $(pwd)/setup/connection-process.py --adapter=${ADAPTER_INTERFACE}") | crontab -
+# (crontab -l 2>/dev/null; echo "*/${CONNECTION_INTERVAL} * * * * sudo $(pwd)/.env/bin/python $(pwd)/webapp/connect.py --ap=${AP_INTERFACE} --adapter=${ADAPTER_INTERFACE} &") | crontab -
 
 
 # IP Tables
@@ -46,8 +45,6 @@ sed -i -- "s/net.ipv4.ip_forward=0/net.ipv4.ip_forward=1/g" /etc/sysctl.conf
 
 echo 1 > /proc/sys/net/ipv4/ip_forward
 
-(crontab -l 2>/dev/null; echo "@reboot sudo bash $(pwd)/setup/iptables-wifi-ap.sh ${AP_INTERFACE} ${ADAPTER_INTERFACE}") | crontab -
-
 
 # Host Name
 
@@ -58,4 +55,7 @@ echo ${HOST_NAME} > /etc/hostname
 bash /etc/init.d/hostname.sh
 
 
-reboot
+chmod -R -x webapp/shell
+
+
+echo "Setup complete."

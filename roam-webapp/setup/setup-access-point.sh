@@ -18,10 +18,7 @@ read -p "Local Network Address :`echo $'\n> '`" -e -i "10.0.0" AP_IP
 
 # Updates and Installs
 
-# apt-get install rpi-update -y
-# rpi-update -y
-
-apt-get install hostapd dnsmasq -y
+apt-get install unattended-upgrades hostapd dnsmasq -y
 
 apt-get update -y
 apt-get upgrade -y
@@ -88,3 +85,6 @@ cp /etc/dhcpcd.conf.bak /etc/dhcpcd.conf
 echo "denyinterfaces ${AP_INTERFACE}" >> /etc/dhcpcd.conf
 
 systemctl enable hostapd
+
+
+echo "Setup complete."
