@@ -23,7 +23,7 @@
 
                 <form class="roam-connect" method="post" action="/connect">
                     <div class="roam-ssid mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fullwidth">
-                        <input class="mdl-textfield__input" type="text" name="ssid" id="roam-ssid" readonly tabindex="-1" value="{{ active if active is not none }}" data-val="{{ active if active is not none }}" required>
+                        <input class="mdl-textfield__input" type="text" name="ssid" id="roam-ssid" readonly tabindex="-1" value="{{ active if active }}" data-val="{{ active if active is not none }}" required>
                         <label for="roam-ssid"><i class="roam-icon mdl-icon-toggle__label material-icons">{{ 'keyboard_arrow_down' if active is none else 'check' }}</i></label>
                         <label class="mdl-textfield__label" for="roam-ssid">Network</label>
                         <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="roam-ssid">
@@ -48,7 +48,6 @@
         <script src="/static/js/getmdl-select.min.js"></script>
 
         <script src="/static/js/jquery-3.1.1.min.js"></script>
-        <script>var roamActiveSsid = {{ active|tojson|safe }};</script>
         <script src="/static/js/script.js"></script>
     </body>
 </html>
