@@ -7,8 +7,9 @@ jQuery(document).ready(function ($) {
     var $selectIcon = $(".roam-icon", $connectForm);
     var $spinner = $(".roam-spinner");
     var submitUrl = $connectForm.attr("action");
+    var activeSsid = $('.roam-active', $connectForm).data('val');
     var updateForm = function () {
-        if ($ssidInput.val() === roamActiveSsid) {
+        if ($ssidInput.val() === activeSsid) {
             $selectIcon.text('check');
             $passkeyField.hide();
             $submitButton.hide();
@@ -25,12 +26,12 @@ jQuery(document).ready(function ($) {
         var formData = $connectForm.serializeArray();
         $connectForm.hide();
         $spinner.show();
-        $.post(submitUrl, formData).done(function (data) {
-            $('.roam-active', $connectForm).removeClass('roam-active');
+        $.post(submitUrl, formData).done(function (ssid) {
             $passkeyInput.val('');
-            if (data && data.hasOwnProperty("options") && data.options.hasOwnProperty("wpa-ssid")) {
-                roamActiveSsid = data.options["wpa-ssid"];
-                $('.mdl-menu__item[data-val="' + roamActiveSsid + '"]', $connectForm).addClass('roam-active');
+            if (ssid) {
+                $('.roam-active', $connectForm).removeClass('roam-active');
+                activeSsid = ssid;
+                $('.mdl-menu__item[data-val="' + ssid + '"]', $connectForm).addClass('roam-active');
             }
             updateForm();
             $spinner.hide();
