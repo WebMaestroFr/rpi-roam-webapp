@@ -12,16 +12,19 @@ The Pi has to be up and running a fresh image of Raspbian. If not, please follow
 
 ## Installation
 
-1. Download this repository.
-2. Use *secure copy* to push the application directory onto the Pi.
+1 - Download this repository.
+
+2 - Use *secure copy* to push the application directory onto the Pi (default password is: *raspberrypi*).
 ```
 $ scp -r path/to/rpi-roam-webapp/roam pi@raspberrypi.local:.
 ```
-3. Take control with SSH.
+
+3 - Take control with SSH (default password is: *raspberrypi*).
 ```
 $ ssh pi@raspberrypi.local
 ```
-4. Run the setup script.
+
+4 - Run the setup script.
 ```
 pi@raspberrypi:~ $ sudo bash roam/setup.sh
 ```
