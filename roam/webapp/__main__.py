@@ -7,18 +7,20 @@ from modules import configuration, connection
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
-    "--port", type=int, nargs="?", default=80, help="Application Port.")
+    "--ip", nargs="?", default="10.0.0.1", help="Application IP")
 parser.add_argument(
-    "--name", nargs="?", default="Raspberry Pi", help="Application Name.")
+    "--port", type=int, nargs="?", default=80, help="Application Port")
 parser.add_argument(
-    "--ap", nargs="?", default="wlan0", help="Access Point Interface.")
+    "--name", nargs="?", default="Raspberry Pi", help="Application Name")
 parser.add_argument(
-    "--adapter", nargs="?", default="wlan1", help="Adapter Interface.")
+    "--ap", nargs="?", default="wlan0", help="Access Point Interface")
+parser.add_argument(
+    "--adapter", nargs="?", default="wlan1", help="Adapter Interface")
 
 args = parser.parse_args()
 
 ssid = connection.auto_connect(args.ap, args.adapter)
-configuration.iptables(args.ap, args.adapter, ssid)
+configuration.iptables(args.ap, args.adapter, args.ip, args.port, ssid)
 
 app = Flask(__name__)
 app.config.update(DEBUG=True)
@@ -56,7 +58,7 @@ def activate_scheme():
         else:
             scheme = connection.get_scheme(args.adapter, ssid)
         if scheme and connection.activate_scheme(scheme):
-            configuration.iptables(args.ap, args.adapter, ssid)
+            # configuration.iptables(args.ap, args.adapter, args.ip, args.port, ssid)
             return jsonify(ssid)
     return jsonify(False)
 
@@ -69,5 +71,5 @@ def index():
         active=connection.active_ssid(args.adapter),
         name=args.name)
 
-
-app.run(host="0.0.0.0", port=args.port)
+# app.run(host="0.0.0.0", port=args.port)
+app.run(host=args.ip, port=args.port)

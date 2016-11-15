@@ -136,8 +136,8 @@ bash /etc/init.d/hostname.sh
 
 # Application
 
-(crontab -l 2>/dev/null; echo "@reboot sudo $(pwd)/.env/bin/python $(pwd)/webapp --port=${APP_PORT} --name=\"${APP_NAME}\" --ap=${AP_INTERFACE} --adapter=${ADAPTER_INTERFACE} &") | crontab -
-(crontab -l 2>/dev/null; echo "*/${CONNECTION_INTERVAL} * * * * sudo $(pwd)/.env/bin/python $(pwd)/webapp/modules/connection.py --ap=${AP_INTERFACE} --adapter=${ADAPTER_INTERFACE} &") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot sudo $(pwd)/.env/bin/python $(pwd)/webapp --ip=\"${AP_IP}.1\" --port=${APP_PORT} --name=\"${APP_NAME}\" --ap=${AP_INTERFACE} --adapter=${ADAPTER_INTERFACE} &") | crontab -
+(crontab -l 2>/dev/null; echo "*/${CONNECTION_INTERVAL} * * * * sudo $(pwd)/.env/bin/python $(pwd)/webapp/modules/connection.py --ip=\"${AP_IP}.1\" --port=${APP_PORT} --ap=${AP_INTERFACE} --adapter=${ADAPTER_INTERFACE} &") | crontab -
 
 
 echo "Setup complete."

@@ -97,6 +97,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
+        "--ip", nargs="?", default="10.0.0.1", help="Application IP")
+    parser.add_argument(
+        "--port", type=int, nargs="?", default=80, help="Application Port")
+    parser.add_argument(
         "--ap", nargs="?", default="wlan0", help="Access Point Interface.")
     parser.add_argument(
         "--adapter", nargs="?", default="wlan1", help="Adapter Interface.")
@@ -109,4 +113,4 @@ if __name__ == "__main__":
         # Attempt connection
         ssid = auto_connect(args.ap, args.adapter)
         # Reset iptables rules
-        configuration.iptables(args.ap, args.adapter, ssid)
+        # configuration.iptables(args.ap, args.adapter, args.ip, args.port, ssid)
