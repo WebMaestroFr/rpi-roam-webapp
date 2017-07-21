@@ -36,11 +36,11 @@ read -p "Connection Process Interval :`echo $'\n> '`" -e -i "2" CONNECTION_INTER
 
 # Installs and Updates
 
-apt-get install unattended-upgrades hostapd dnsmasq python-pip -y
-
 apt-get update -y
 apt-get upgrade -y
 apt-get autoremove -y
+
+apt-get install unattended-upgrades hostapd dnsmasq python-pip -y
 
 
 # Python environment
